@@ -21,7 +21,32 @@ chmod 700 get_helm.sh
 
 cp /usr/local/bin/helm /usr/bin/helm 
 
-docker pull kindest/node:v1.14.3
+# docker pull kindest/node:v1.14.3
+kind create cluster 
+
+Load balancer MetalLB 
+
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/master/manifests/namespace.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" 
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/master/manifests/metallb.yaml
+kubectl get pods -n metallb-system --watch
+
+docker network inspect -f '{{.IPAM.Config}}' kind
+
+echo 'apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - 172.18.255.200-172.19.255.250 '   > metallb.yaml 
+
+kubectl apply -f metallb.yaml 
 
 
 ```
