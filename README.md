@@ -57,7 +57,6 @@ kubectl expose deploy nginx --port=80 --type LoadBalancer
 kubectl get svc -owide   
 kubectl expose deploy nginx --port=80 --type NodePort 
 
-
 Install nginx in VM 
 config 172 to the load balancer kubernetes ti metallb
 server {
@@ -67,6 +66,10 @@ server {
   }
 }
 
+
+kubectl create deployment webapp --image=caddy:2.2.1-alpine 
+kubectl expose deploy webapp --port=80 --type LoadBalancer  
+kubectl get svc -owide   
 
 
 
