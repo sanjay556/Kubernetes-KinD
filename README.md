@@ -24,7 +24,7 @@ cp /usr/local/bin/helm /usr/bin/helm
 # docker pull kindest/node:v1.14.3
 kind create cluster 
 
-Load balancer MetalLB 
+# Load balancer MetalLB 
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/master/manifests/namespace.yaml
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" 
@@ -48,8 +48,26 @@ data:
 
 kubectl apply -f metallb.yaml 
 
+
+# Ingress controller ISTIO 
+curl -L https://istio.io/downloadIstio | sh -
+
+cd istio*
+
+kubectl create namespace istio-system
+helm install -n istio-system istio-base manifests/charts/base
+helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
+    --set global.hub="docker.io/istio" --set global.tag="1.8.2"
+
+kubectl get pods -n istio-system --wait 
+
+
+
+
 kubectl get api-services 
 kubectl get api-resources 
+
+# Service deploy on cluster 
 
 kubectl create deployment nginx --image=nginx:1.16-alpine  -o yaml --dry-run
 kubectl create deployment nginx --image=nginx:1.16-alpine 
@@ -70,6 +88,11 @@ server {
 kubectl create deployment webapp --image=caddy:2.2.1-alpine 
 kubectl expose deploy webapp --port=80 --type LoadBalancer  
 kubectl get svc -owide   
+
+
+Kubernetes Dashoard 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+
 
 
 
