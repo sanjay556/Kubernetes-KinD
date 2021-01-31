@@ -61,6 +61,7 @@ helm install --namespace istio-system istiod manifests/charts/istio-control/isti
 
 kubectl get pods -n istio-system --wait 
 
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
 
 
