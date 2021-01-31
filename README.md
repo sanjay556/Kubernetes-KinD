@@ -22,7 +22,17 @@ chmod 700 get_helm.sh
 cp /usr/local/bin/helm /usr/bin/helm 
 
 # docker pull kindest/node:v1.14.3
-kind create cluster 
+#  kind create cluster 
+k8s_version='1.14.3'
+cat <<EOF | kind create cluster --image kindest/node:v${k8s_version} --name sanjay  --config=-
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+- role: worker
+EOF
+
+
 
 # Load balancer MetalLB 
 
