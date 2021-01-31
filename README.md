@@ -21,6 +21,7 @@ chmod 700 get_helm.sh
 
 cp /usr/local/bin/helm /usr/bin/helm 
 
+docker pull kindest/node:v1.14.3
 
 
 ```
