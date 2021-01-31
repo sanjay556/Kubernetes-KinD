@@ -48,5 +48,26 @@ data:
 
 kubectl apply -f metallb.yaml 
 
+kubectl get api-services 
+kubectl get api-resources 
+
+kubectl create deployment nginx --image=nginx:1.16-alpine  -o yaml --dry-run
+kubectl create deployment nginx --image=nginx:1.16-alpine 
+kubectl expose deploy nginx --port=80 --type LoadBalancer  
+kubectl get svc -owide   
+kubectl expose deploy nginx --port=80 --type NodePort 
+
+
+Install nginx in VM 
+config 172 to the load balancer kubernetes ti metallb
+server {
+  listen 80;
+  location / {
+  proxy_pass http://172.18.255.200 ;
+  }
+}
+
+
+
 
 ```
