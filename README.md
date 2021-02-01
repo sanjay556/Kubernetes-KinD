@@ -77,8 +77,12 @@ kubectl apply -f metallb.yaml
 # Ingress controller ISTIO  1.8.2
 curl -L https://istio.io/downloadIstio | sh -
 
+## Default install 
 cd istio*
 istioctl operator init
+istioctl install
+## Default install 
+
 kubectl create namespace istio-system
 helm install -n istio-system istio-base manifests/charts/base
 helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
