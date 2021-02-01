@@ -33,6 +33,21 @@ nodes:
 EOF
 
 
+# K9s Kubectl cli
+wget https://dl.google.com/go/go1.15.2.linux-amd64.tar.gz
+sudo tar -C /usr/local -xf go1.15.2.linux-amd64.tar.gz
+$ vim ~/.bash_profile
+export PATH=$PATH:/usr/local/go/bin
+Then get the file to keep the configuration.
+source ~/.bash_profile
+In order to build K9 from source, you must clone the repository before proceeding.
+cd ~
+git clone https://github.com/derailed/k9s.git
+cd ~/k9s
+
+Build and run the executable file
+$ make build && ./execs/k9s
+
 
 # Load balancer MetalLB 
 
