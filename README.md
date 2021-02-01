@@ -59,7 +59,7 @@ data:
 kubectl apply -f metallb.yaml 
 
 
-# Ingress controller ISTIO 
+# Ingress controller ISTIO  1.8.2
 curl -L https://istio.io/downloadIstio | sh -
 
 cd istio*
@@ -69,11 +69,14 @@ helm install -n istio-system istio-base manifests/charts/base
 helm install --namespace istio-system istiod manifests/charts/istio-control/istio-discovery \
     --set global.hub="docker.io/istio" --set global.tag="1.8.2"
 
-kubectl get pods -n istio-system --wait 
+kubectl get pods -n istio-system -w 
+
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.8/samples/addons/kiali.yaml
+kubectl -n istio-system get svc kiali
+
+
 
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-
-
 
 kubectl get api-services 
 kubectl get api-resources 
